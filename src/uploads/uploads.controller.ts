@@ -7,8 +7,19 @@ import {
   HttpCode,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname, join } from 'path';
+import { v2 as cloudinary } from 'cloudinary';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+import { extname } from 'path';
+
+const cloudinaryStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    public_id: (req, file) => {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+      return `uploads/${uniqueSuffix}${extname(file.originalname)}`;
+    },
+  } as any,
+});
 
 @Controller('uploads')
 export class UploadsController {
@@ -16,14 +27,7 @@ export class UploadsController {
   @HttpCode(HttpStatus.CREATED)
   @UseInterceptors(
     FileInterceptor('image', {
-      storage: diskStorage({
-        destination: join(process.cwd(), 'uploads'),
-        filename: (req, file, callback) => {
-          const uniqueSuffix =
-            Date.now() + '-' + Math.round(Math.random() * 1e9);
-          callback(null, `${uniqueSuffix}${extname(file.originalname)}`);
-        },
-      }),
+      storage: cloudinaryStorage,
       fileFilter: (req, file, callback) => {
         if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
           return callback(
@@ -45,7 +49,6 @@ export class UploadsController {
       return { success: false, message: 'Tidak ada file yang diupload.' };
     }
 
-    const imageUrl = `${process.env.PROD_BASE_URL || 'http://localhost:' + (process.env.NEST_DEV_PORT ?? 3000)}/uploads/${file.filename}`;
-    return { success: true, imageUrl };
+    return { success: true, imageUrl: file.path };
   }
 }

@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Put,
   Param,
   Delete,
@@ -16,11 +15,22 @@ import {
 import { BlogsService } from './blogs.service';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
-import { BlogInterface, FindOneParams } from './interface/blogs';
+import { FindOneParams } from './interface/blogs';
 import { Blogs } from './entities/blogs.entities';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
+import { v2 as cloudinary } from 'cloudinary';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import { extname } from 'path';
+
+const cloudinaryStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    public_id: (req, file) => {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+      return `portfolio_blogs/${uniqueSuffix}${extname(file.originalname)}`;
+    },
+  } as any,
+});
 
 @Controller('blogs')
 export class BlogsController {
@@ -37,51 +47,32 @@ export class BlogsController {
   }
 
   @Post()
-  @UseInterceptors(
-    FileInterceptor('photo', {
-      storage: diskStorage({
-        destination: './uploads',
-        filename: (req, file, callback) => {
-          const uniqueSuffix =
-            Date.now() + '-' + Math.round(Math.random() * 1e9);
-          callback(null, `${uniqueSuffix}${extname(file.originalname)}`);
-        },
-      }),
-    }),
-  )
+  @UseInterceptors(FileInterceptor('photo', { storage: cloudinaryStorage }))
   async create(
     @Body() createBlogDto: CreateBlogDto,
     @UploadedFile() photo: Express.Multer.File,
   ): Promise<Blogs> {
     if (photo) {
-      createBlogDto.photo = photo.filename;
+      console.log('Cek Objek File dari Cloudinary:', photo);
+      createBlogDto.photo = photo.path;
     }
     return await this.blogsService.create(createBlogDto);
   }
 
   @Put(':id')
-  @UseInterceptors(
-    FileInterceptor('photo', {
-      storage: diskStorage({
-        destination: './uploads',
-        filename: (req, file, callback) => {
-          const uniqueSuffix =
-            Date.now() + '-' + Math.round(Math.random() * 1e9);
-          callback(null, `${uniqueSuffix}${extname(file.originalname)}`);
-        },
-      }),
-    }),
-  )
+  @UseInterceptors(FileInterceptor('photo', { storage: cloudinaryStorage }))
   async update(
     @Param() params: FindOneParams,
-    @Body() UpdateBlogDto: UpdateBlogDto,
+    @Body() updateBlogDto: UpdateBlogDto,
     @UploadedFile() photo: Express.Multer.File,
   ): Promise<Blogs> {
     const blog = await this.findOneOrFail(params.id);
+
     if (photo) {
-      UpdateBlogDto.photo = photo.filename;
+      updateBlogDto.photo = photo.path;
     }
-    return await this.blogsService.update(blog, UpdateBlogDto);
+
+    return await this.blogsService.update(blog, updateBlogDto);
   }
 
   @Delete(':id')
