@@ -25,7 +25,7 @@ import { APP_GUARD } from '@nestjs/core';
     RateLimiterModule.register({
       for: 'Express',
       type: 'Memory',
-      points: 5,
+      points: 30,
       duration: 60,
     }),
   ],
