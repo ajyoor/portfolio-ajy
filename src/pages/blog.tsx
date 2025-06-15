@@ -91,7 +91,7 @@ const BlogContent = ({ dark }: { dark: boolean }) => {
               dark ? "text-white" : "text-grayTextContent"
             } `}
           >
-            Blog will be loaded. Waiting for server to wake up...
+            Blogs will be loaded in a few seconds
           </span>
         </motion.div>
       ) : (
@@ -122,7 +122,7 @@ const BlogContent = ({ dark }: { dark: boolean }) => {
   return (
     <Card dark={dark} className="!gap-4">
       <DotCircleContent dark={dark} title="Blogs" />
-      {isLoading && (
+      {!isLoading && (
         <Input
           dark={dark}
           placeholder="Search Blogs"
