@@ -1,9 +1,13 @@
-import { Expose } from 'class-transformer';
+import { Expose, Transform } from 'class-transformer';
 import { Comment } from '../entities/comment.entities';
 
 export class CommentResponseDto {
   @Expose()
   id: string;
+
+  @Expose()
+  @Transform(({ obj }) => obj.blog?.id)
+  blogId: string;
 
   @Expose()
   name: string;
