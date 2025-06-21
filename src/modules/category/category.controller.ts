@@ -15,7 +15,7 @@ import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category } from './entities/category.entities';
-import { FindOneParams } from 'src/blogs/interface/blogs';
+import { FindOneParams } from 'src/modules/blogs/interface/blogs';
 
 @Controller('category')
 export class CategoryController {

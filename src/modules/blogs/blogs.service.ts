@@ -1,8 +1,6 @@
-// src/blogs/blogs.service.ts
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
-import { BlogInterface } from './interface/blogs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Blogs } from './entities/blogs.entities';
 import { Repository } from 'typeorm';
@@ -31,7 +29,10 @@ export class BlogsService {
   }
 
   async findOne(id: string): Promise<Blogs | null> {
-    return await this.BlogRepository.findOne({ where: { id: id } });
+    return await this.BlogRepository.findOne({
+      where: { id: id },
+      relations: ['comments'],
+    });
   }
 
   async create(createBlogDto: CreateBlogDto): Promise<Blogs> {

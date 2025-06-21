@@ -18,23 +18,14 @@ import { UpdateBlogDto } from './dto/update-blog.dto';
 import { FindOneParams } from './interface/blogs';
 import { Blogs } from './entities/blogs.entities';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { v2 as cloudinary } from 'cloudinary';
-import { CloudinaryStorage } from 'multer-storage-cloudinary';
-import { extname } from 'path';
-
-const cloudinaryStorage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    public_id: (req, file) => {
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-      return `portfolio_blogs/${uniqueSuffix}${extname(file.originalname)}`;
-    },
-  } as any,
-});
+import { UploadsService } from 'src/modules/uploads/uploads.service';
 
 @Controller('blogs')
 export class BlogsController {
-  constructor(private readonly blogsService: BlogsService) {}
+  constructor(
+    private readonly blogsService: BlogsService,
+    private readonly uploadsService: UploadsService,
+  ) {}
 
   @Get()
   async findAll(): Promise<Blogs[]> {
@@ -47,7 +38,11 @@ export class BlogsController {
   }
 
   @Post()
-  @UseInterceptors(FileInterceptor('photo', { storage: cloudinaryStorage }))
+  @UseInterceptors(
+    FileInterceptor('photo', {
+      storage: new UploadsService().getStorage('portfolio_blogs'),
+    }),
+  )
   async create(
     @Body() createBlogDto: CreateBlogDto,
     @UploadedFile() photo: Express.Multer.File,
@@ -60,7 +55,11 @@ export class BlogsController {
   }
 
   @Put(':id')
-  @UseInterceptors(FileInterceptor('photo', { storage: cloudinaryStorage }))
+  @UseInterceptors(
+    FileInterceptor('photo', {
+      storage: new UploadsService().getStorage('portfolio_blogs'),
+    }),
+  )
   async update(
     @Param() params: FindOneParams,
     @Body() updateBlogDto: UpdateBlogDto,
