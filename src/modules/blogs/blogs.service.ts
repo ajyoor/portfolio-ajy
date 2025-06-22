@@ -29,10 +29,7 @@ export class BlogsService {
   }
 
   async findOne(id: string): Promise<Blogs | null> {
-    return await this.BlogRepository.findOne({
-      where: { id: id },
-      relations: ['comments'],
-    });
+    return await this.BlogRepository.findOne({ where: { id: id } });
   }
 
   async create(createBlogDto: CreateBlogDto): Promise<Blogs> {
