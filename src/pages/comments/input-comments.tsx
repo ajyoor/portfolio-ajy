@@ -1,9 +1,10 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Picker from "emoji-picker-react";
 import { FaRegSmile } from "react-icons/fa";
 import Input from "@/components/Input";
 import { Textarea } from "@/components/Textarea";
+import { IoPersonCircle } from "react-icons/io5";
 
 interface CommentInputProps {
   onSubmit: (data: { name: string; text: string }) => void;
@@ -56,10 +57,6 @@ const CommentInput = ({
     },
   };
 
-  useEffect(() => {
-    console.log(dataComment);
-  }, [dataComment]);
-
   return (
     <motion.div
       variants={variants}
@@ -71,11 +68,7 @@ const CommentInput = ({
       <form onSubmit={handleSubmit}>
         <div className="flex items-start space-x-4">
           {!isReply && (
-            <img
-              src="https://i.pravatar.cc/150?u=currentuser"
-              alt="User Avatar"
-              className="w-10 h-10 rounded-full"
-            />
+            <IoPersonCircle size={40} color={dark ? "#e98074" : "#C0C0C0"} />
           )}
           <div className="flex-1">
             <div className="relative space-y-3">

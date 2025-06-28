@@ -2,13 +2,20 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import CommentInput from "./input-comments";
 import { CommentInterface } from "../detail";
+import { IoPersonCircle, IoTrash } from "react-icons/io5";
+import { CiHeart } from "react-icons/ci";
+import { FaHeart } from "react-icons/fa";
+import ImgPerson from "@/assets/sangar.jpeg";
 
+const guard = process.env.ADMIN_KEY;
 interface CommentProps {
   comment: CommentInterface;
   onAddReply: (data: { parentId: string; name: string; text: string }) => void;
   dark: boolean;
   blogId: string;
   toggleReplies?: boolean;
+  onDeleteComment: (id: string) => void;
+  onToggleLove: (id: string) => void;
 }
 
 const UnitComments = ({
@@ -17,18 +24,13 @@ const UnitComments = ({
   dark,
   blogId,
   toggleReplies,
+  onDeleteComment,
+  onToggleLove,
 }: CommentProps) => {
   const [showReplies, setShowReplies] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
-
-  const handleReplySubmit = (data: { name: string; text: string }) => {
-    onAddReply({
-      parentId: comment.id,
-      name: data.name,
-      text: data.text,
-    });
-    setIsReplying(false);
-  };
+  const isParentComment = !comment.parentId;
+  const key = window !== undefined && localStorage.getItem("ADMIN_KEY");
 
   const variants = {
     hidden: { opacity: 0, height: 0, marginTop: 0 },
@@ -40,18 +42,100 @@ const UnitComments = ({
     },
   };
 
-  const isParentComment = !comment.parentId;
+  const handleReplySubmit = (data: { name: string; text: string }) => {
+    onAddReply({
+      parentId: comment.id,
+      name: data.name,
+      text: data.text,
+    });
+    setIsReplying(false);
+  };
+
+  const handleDeleteClick = (id: string) => {
+    if (key !== guard) return;
+
+    const confirm = window.confirm(
+      "Are you sure you want to delete this comment?"
+    );
+
+    if (confirm) {
+      onDeleteComment(id);
+    } else {
+      alert("Deletion cancelled or incorrect confirmation");
+    }
+  };
+
+  const handleLoveClick = (id: string) => {
+    if (key !== guard) return;
+
+    const confirm = window.confirm("Are you sure you want to toggle love?");
+
+    if (confirm) {
+      onToggleLove(id);
+    } else {
+      alert("Love toggle cancelled or incorrect confirmation");
+    }
+  };
 
   useEffect(() => {
     setShowReplies(true);
   }, [toggleReplies]);
 
+  const renderAdminActions = (
+    commentId: string,
+    isLoved: boolean,
+    isReply = false
+  ) => (
+    <div
+      className={`flex gap-3 items-center ${isReply ? "justify-end mt-2" : ""}`}
+    >
+      <IoTrash
+        cursor="pointer"
+        color="#e98074"
+        size={16}
+        onClick={() => handleDeleteClick(commentId)}
+      />
+      {isLoved ? (
+        <FaHeart
+          cursor="pointer"
+          color="#e85a4f"
+          size={16}
+          onClick={() => handleLoveClick(commentId)}
+        />
+      ) : (
+        <CiHeart
+          cursor="pointer"
+          color={dark ? "#e98074" : "#C0C0C0"}
+          size={16}
+          onClick={() => handleLoveClick(commentId)}
+        />
+      )}
+    </div>
+  );
+
+  const renderLovedIndicator = (isReply = false) => (
+    <div
+      className={`flex items-center gap-2 ${isReply ? "justify-end mt-1" : ""}`}
+    >
+      <span
+        className={`flex items-center gap-3 text-xs ${dark ? "text-grayText" : "text-grayTextContent"}`}
+      >
+        Loved by{" "}
+        <img
+          src={ImgPerson}
+          alt="img"
+          defaultValue={ImgPerson}
+          className="scale-[1.5] rounded-full size-3 "
+          srcSet={ImgPerson}
+          loading="lazy"
+        />
+      </span>
+    </div>
+  );
+
   return (
     <div className="flex space-x-3 relative">
-      <img
-        src="https://gerindra.id/wp-content/uploads/2025/06/683d159b98daf-e1748847760788.png"
-        className="w-10 h-10 rounded-full flex-shrink-0 z-10 object-cover"
-      />
+      <IoPersonCircle size={40} color={dark ? "#e98074" : "#C0C0C0"} />
       <div className="flex-1 min-w-0">
         <div
           className={`${
@@ -85,9 +169,9 @@ const UnitComments = ({
             <>
               <hr className="my-3" />
               <div className="flex items-start space-x-3">
-                <img
-                  src="https://gerindra.id/wp-content/uploads/2025/06/683d159b98daf-e1748847760788.png"
-                  className="w-10 h-10 rounded-full flex-shrink-0 z-10 object-cover"
+                <IoPersonCircle
+                  size={40}
+                  color={dark ? "#e98074" : "#C0C0C0"}
                 />
                 <CommentInput
                   dark={dark}
@@ -101,7 +185,6 @@ const UnitComments = ({
             </>
           )}
         </AnimatePresence>
-
         {isParentComment && (
           <div className="mt-3">
             <div className="flex items-center space-x-5 mt-2 ml-1 text-sm text-gray-600 font-medium">
@@ -122,10 +205,11 @@ const UnitComments = ({
                     : `Show ${comment.replies.length} replies`}
                 </button>
               )}
+              {key === guard && renderAdminActions(comment.id, comment.isLoved)}
+              {comment.isLoved && renderLovedIndicator()}
             </div>
           </div>
         )}
-
         {isParentComment && comment.replies && comment.replies.length > 0 && (
           <div className="mt-3">
             <AnimatePresence>
@@ -138,13 +222,23 @@ const UnitComments = ({
                   className="space-y-4"
                 >
                   {comment.replies.map((reply) => (
-                    <UnitComments
-                      dark={dark}
-                      key={reply.id}
-                      comment={reply}
-                      onAddReply={onAddReply}
-                      blogId={blogId}
-                    />
+                    <div key={reply.id} className="flex flex-col text-gray-100">
+                      <UnitComments
+                        dark={dark}
+                        key={reply.id}
+                        comment={reply}
+                        onAddReply={onAddReply}
+                        blogId={blogId}
+                        onDeleteComment={onDeleteComment}
+                        onToggleLove={onToggleLove}
+                      />
+
+                      <div className="flex gap-4 justify-end mt-3">
+                        {key === guard &&
+                          renderAdminActions(reply.id, reply.isLoved)}
+                        {reply.isLoved && renderLovedIndicator()}
+                      </div>
+                    </div>
                   ))}
                 </motion.div>
               )}

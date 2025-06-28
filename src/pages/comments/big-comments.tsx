@@ -54,12 +54,41 @@ const BigComments = ({
         `https://portfolio-ajy.onrender.com/blogs/${blogId}/comments`,
         payload
       );
+
       showToast("Reply added successfully!", "success");
       triggerList(true);
       setShowReplies(true);
     } catch (error) {
       console.log(error);
       showToast("Failed to add reply!", "error");
+    }
+  };
+
+  const handleDeleteComment = async (id: string) => {
+    try {
+      await axios.delete(
+        `https://portfolio-ajy.onrender.com/blogs/${blogId}/comments/${id}`
+      );
+
+      showToast("Comment deleted successfully!", "error");
+      triggerList(true);
+    } catch (error) {
+      console.error("Delete failed:", error);
+      showToast("Failed to deleted comment!", "error");
+    }
+  };
+
+  const handleToggleLove = async (id: string) => {
+    try {
+      await axios.put(
+        `https://portfolio-ajy.onrender.com/blogs/${blogId}/comments/${id}/love`
+      );
+
+      showToast("Comment loved successfully!", "info");
+      triggerList(true);
+    } catch (error) {
+      console.error("Love toggle failed:", error);
+      showToast("Failed to loved comment!", "error");
     }
   };
 
@@ -84,6 +113,8 @@ const BigComments = ({
                   dark={dark}
                   blogId={blogId}
                   toggleReplies={showReplies}
+                  onDeleteComment={handleDeleteComment}
+                  onToggleLove={handleToggleLove}
                 />
               ))}
           </>

@@ -25,15 +25,14 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({
     const id = Date.now();
     setToasts((prev) => [...prev, { message, type, id }]);
 
-    // setTimeout(() => {
-    setToasts((prev) => prev.filter((toast) => toast.id !== id));
-    // }, 3000);
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((toast) => toast.id !== id));
+    }, 3000);
   };
 
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-
       <div className="fixed bottom-4 right-4 z-50 space-y-2">
         <AnimatePresence>
           {toasts.map((toast) => (

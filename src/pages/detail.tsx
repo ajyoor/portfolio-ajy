@@ -79,83 +79,88 @@ const BlogDetailContent = ({ dark }: { dark: boolean }) => {
             Back
           </span>
         </Link>
-        <div
-          className={`flex gap-2 items-center font-semibold text-xs capitalize mb-2  ${
-            !dark ? "text-grayText" : "text-white"
-          }`}
-        >
-          <CiClock2 size={16} strokeWidth={1} />
-          {new Date(blogDetail?.updatedAt || "").toLocaleDateString("id-ID", {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-            hour: "numeric",
-            minute: "numeric",
-          })}
-        </div>
         {blogDetail !== undefined ? (
-          <div className="flex flex-col gap-5 text-grayTextContent">
-            <span
-              className={`text-2xl font-bold relative z-10 flex flex-col ${
-                dark && "!text-lightText"
-              }`}
-            >
-              {blogDetail.title}
-            </span>
-            <img
-              className="h-48 w-full object-cover rounded-xl shadow-xl border border-grayBorder"
-              loading="lazy"
-              src={blogDetail.photo}
-              alt={blogDetail.title + "-imgAlt"}
-            />
-            <span
-              className={`container-dcontent-blog text-base font-medium leading-relaxed relative z-10 text-justify ${
+          <>
+            <div
+              className={`flex gap-2 items-center font-semibold text-xs capitalize mb-2  ${
                 !dark ? "text-grayText" : "text-white"
               }`}
             >
-              <div dangerouslySetInnerHTML={{ __html: blogDetail.content }} />
-            </span>
-            <div className="flex items-center gap-4 my-4">
-              <span
-                className={`text-sm font-semibold ${
-                  dark ? "text-white" : "text-grayText"
-                }`}
-              >
-                Share:
-              </span>
-              <a
-                href={twitterShareUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Share on Twitter"
-                className="text-gray-500 hover:text-black dark:hover:text-white transition-colors"
-              >
-                <FaXTwitter size={20} />
-              </a>
-              <a
-                href={whatsappShareUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Share on WhatsApp"
-                className="text-gray-500 hover:text-green-500 transition-colors"
-              >
-                <FaWhatsapp size={22} />
-              </a>
-              <button
-                onClick={handleCopyLink}
-                aria-label="Copy link"
-                className={`flex items-center gap-2 text-sm font-medium transition-all ${
-                  isCopied
-                    ? "text-blue-500"
-                    : "text-gray-500 hover:text-blue-500"
-                }`}
-              >
-                <FaLink size={20} />
-                {isCopied ? "Copied!" : ""}
-              </button>
+              <CiClock2 size={16} strokeWidth={1} />
+              {new Date(blogDetail?.updatedAt || "").toLocaleDateString(
+                "id-ID",
+                {
+                  weekday: "long",
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                }
+              )}
             </div>
-          </div>
+            <div className="flex flex-col gap-5 text-grayTextContent">
+              <span
+                className={`text-2xl font-bold relative z-10 flex flex-col ${
+                  dark && "!text-lightText"
+                }`}
+              >
+                {blogDetail.title}
+              </span>
+              <img
+                className="h-48 w-full object-cover rounded-xl shadow-xl border border-grayBorder"
+                loading="lazy"
+                src={blogDetail.photo}
+                alt={blogDetail.title + "-imgAlt"}
+              />
+              <span
+                className={`container-dcontent-blog text-base font-medium leading-relaxed relative z-10 text-justify ${
+                  !dark ? "text-grayText" : "text-white"
+                }`}
+              >
+                <div dangerouslySetInnerHTML={{ __html: blogDetail.content }} />
+              </span>
+              <div className="flex items-center gap-4 my-4">
+                <span
+                  className={`text-sm font-semibold ${
+                    dark ? "text-white" : "text-grayText"
+                  }`}
+                >
+                  Share:
+                </span>
+                <a
+                  href={twitterShareUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Share on Twitter"
+                  className="text-gray-500 hover:text-black dark:hover:text-white transition-colors"
+                >
+                  <FaXTwitter size={20} />
+                </a>
+                <a
+                  href={whatsappShareUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Share on WhatsApp"
+                  className="text-gray-500 hover:text-green-500 transition-colors"
+                >
+                  <FaWhatsapp size={22} />
+                </a>
+                <button
+                  onClick={handleCopyLink}
+                  aria-label="Copy link"
+                  className={`flex items-center gap-2 text-sm font-medium transition-all ${
+                    isCopied
+                      ? "text-blue-500"
+                      : "text-gray-500 hover:text-blue-500"
+                  }`}
+                >
+                  <FaLink size={20} />
+                  {isCopied ? "Copied!" : ""}
+                </button>
+              </div>
+            </div>
+          </>
         ) : (
           Array(4)
             .fill(null)
@@ -175,20 +180,39 @@ const BlogDetailContent = ({ dark }: { dark: boolean }) => {
             })
         )}
       </Card>
-      {listComments !== undefined && (
-        <Card dark={dark} className="relative !mt-4">
-          <DotCircleContent
-            dark={dark}
-            title={`Comments ${listComments.length ? `(${listComments.length})` : ""}`}
-          />
-          <CommentSection
-            initialComments={listComments}
-            dark={dark}
-            triggerList={setTriggerList}
-            blogId={url.id!}
-          />
-        </Card>
-      )}
+      <Card dark={dark} className="relative !mt-4">
+        {listComments ? (
+          <>
+            <DotCircleContent
+              dark={dark}
+              title={`Comments ${listComments.length ? `(${listComments.length})` : ""}`}
+            />
+            <CommentSection
+              initialComments={listComments}
+              dark={dark}
+              triggerList={setTriggerList}
+              blogId={url.id!}
+            />
+          </>
+        ) : (
+          Array(2)
+            .fill(null)
+            .map((_, i) => {
+              return (
+                <div
+                  key={i}
+                  className={`h-32 ${
+                    !dark
+                      ? "bg-[#373737] border-grayBorder text-white"
+                      : "bg-lightBg border-lightBorder"
+                  } ${
+                    i % 2 === 0 ? "h-20" : "h-32"
+                  } rounded-xl shadow-xl border border-grayBorder animate-pulse opacity-30`}
+                ></div>
+              );
+            })
+        )}
+      </Card>
     </>
   );
 };
