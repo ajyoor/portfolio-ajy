@@ -26,20 +26,20 @@ import { SharedModule } from './shared/shared.module';
     UploadsModule,
     CommentsModule,
     SharedModule,
-    RateLimiterModule.register({
-      for: 'Express',
-      type: 'Memory',
-      points: 30,
-      duration: 60,
-    }),
+    // RateLimiterModule.register({
+    //   for: 'Express',
+    //   type: 'Memory',
+    //   points: 30,
+    //   duration: 60,
+    // }),
   ],
   controllers: [AppController],
   providers: [
     AppService,
-    {
-      provide: APP_GUARD,
-      useClass: RateLimiterGuard,
-    },
+    // {
+    // provide: APP_GUARD,
+    // useClass: RateLimiterGuard,
+    // },
   ],
 })
 export class AppModule {}
