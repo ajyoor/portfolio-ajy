@@ -50,6 +50,8 @@ export class Comment {
   })
   parent: Comment;
 
-  @OneToMany(() => Comment, (comment) => comment.parent)
+  @OneToMany(() => Comment, (comment) => comment.parent, {
+    cascade: true,
+  })
   replies: Comment[];
 }

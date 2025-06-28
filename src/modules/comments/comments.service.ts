@@ -61,18 +61,21 @@ export class CommentsService {
     const comments = await this.commentRepository.find({
       where: {
         blog: { id: blogId },
-        parentId: null,
+        parent: null,
       },
-      relations: ['replies'],
+      relations: ['blog', 'replies'],
       order: { createdAt: 'DESC' },
-      withDeleted: false,
     });
 
     return comments.map((comment) => new CommentResponseDto(comment));
   }
 
   async delete(id: string): Promise<void> {
-    await this.commentRepository.softDelete(id);
+    const result = await this.commentRepository.delete(id);
+
+    if (result.affected === 0) {
+      throw new NotFoundException(`Comment with ID ${id} not found`);
+    }
   }
 
   async reactToComment(
