@@ -157,7 +157,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
       },
       clipboard: {
         matchVisual: false,
-        matchers: [], // Ini sangat penting untuk paste plain text
+        matchers: [],
       },
     }),
     [imageHandler]

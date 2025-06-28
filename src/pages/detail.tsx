@@ -8,10 +8,24 @@ import { useParams } from "react-router-dom";
 import Card from "@/components/Card";
 import { BlogInterface } from "./blog";
 import "@/App.css";
+import CommentSection from "./comments/big-comments";
+import { DotCircleContent } from "@/components/Content";
+
+export interface CommentInterface {
+  id: string;
+  parentId: string;
+  name: string;
+  content: string;
+  createdAt: string;
+  replies: CommentInterface[];
+  isLoved: boolean;
+}
 
 const BlogDetailContent = ({ dark }: { dark: boolean }) => {
   const [blogDetail, setBlogDetail] = useState<BlogInterface>();
+  const [listComments, setListComments] = useState<CommentInterface[]>([]);
   const [isCopied, setIsCopied] = useState(false);
+  const [triggerList, setTriggerList] = useState(false);
   const url = useParams();
   const blogTitle = blogDetail?.title || "";
   const currentUrl = window.location.href;
@@ -37,15 +51,20 @@ const BlogDetailContent = ({ dark }: { dark: boolean }) => {
 
   useEffect(() => {
     const fetchBlogDetail = async () => {
-      const res = await axios.get(
+      const listDetail = await axios.get(
         process.env.API_DEV + "blogs/detail/" + url.id
       );
+      const listComments = await axios.get(
+        process.env.API_DEV + "blogs/" + url.id + "/comments"
+      );
 
-      setBlogDetail(res.data);
+      setBlogDetail(listDetail.data);
+      setListComments(listComments.data);
     };
 
     fetchBlogDetail();
-  }, [url.id]);
+    setTriggerList(false);
+  }, [url.id, triggerList]);
 
   return (
     <>
@@ -156,42 +175,18 @@ const BlogDetailContent = ({ dark }: { dark: boolean }) => {
             })
         )}
       </Card>
-      {blogDetail !== undefined && (
+      {listComments !== undefined && (
         <Card dark={dark} className="relative !mt-4">
-          <div className="absolute inset-0 backdrop-blur-xl bg-black/30 flex items-center justify-center rounded-xl">
-            <div className="text-center">
-              <h3 className="text-white text-xl font-bold mb-2">
-                Comments Section
-              </h3>
-              <p className="text-gray-200">This feature is coming soon !</p>
-              <p className="text-gray-300 text-sm mt-1">
-                Stay tuned for updates
-              </p>
-            </div>
-          </div>
-          <div className="opacity-[0.5]">
-            <div
-              className={`h-12  ${
-                !dark
-                  ? "bg-grayBg border-grayBorder"
-                  : "bg-lightBg2 border-lightBorder"
-              } rounded-lg mb-4`}
-            ></div>
-            <div
-              className={`h-20  ${
-                !dark
-                  ? "bg-grayBg border-grayBorder"
-                  : "bg-lightBg2 border-lightBorder"
-              } rounded-lg mb-4`}
-            ></div>
-            <div
-              className={`h-12  ${
-                !dark
-                  ? "bg-grayBg border-grayBorder"
-                  : "bg-lightBg2 border-lightBorder"
-              } rounded-lg`}
-            ></div>
-          </div>
+          <DotCircleContent
+            dark={dark}
+            title={`Comments ${listComments.length ? `(${listComments.length})` : ""}`}
+          />
+          <CommentSection
+            initialComments={listComments}
+            dark={dark}
+            triggerList={setTriggerList}
+            blogId={url.id!}
+          />
         </Card>
       )}
     </>
