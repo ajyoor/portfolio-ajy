@@ -17,7 +17,7 @@ export const Textarea: React.FC<TextareaInterface> = ({
   placeholder,
   rows = 3,
   dark,
-  maxLength = 200,
+  maxLength,
 }) => {
   return (
     <textarea

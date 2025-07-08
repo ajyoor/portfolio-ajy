@@ -120,12 +120,12 @@ const UnitComments = ({
       <span
         className={`flex items-center gap-3 text-xs ${dark ? "text-grayText" : "text-grayTextContent"}`}
       >
-        Loved by{" "}
+        <FaHeart cursor="pointer" color="#e85a4f" size={16} />
         <img
           src={ImgPerson}
           alt="img"
           defaultValue={ImgPerson}
-          className="scale-[1.5] rounded-full size-3 "
+          className="scale-[1.5] rounded-full size-3 ml-2"
           srcSet={ImgPerson}
           loading="lazy"
         />
@@ -169,10 +169,12 @@ const UnitComments = ({
             <>
               <hr className="my-3" />
               <div className="flex items-start space-x-3">
-                <IoPersonCircle
-                  size={40}
-                  color={dark ? "#e98074" : "#C0C0C0"}
-                />
+                <div className="size-[40px]">
+                  <IoPersonCircle
+                    size={40}
+                    color={dark ? "#e98074" : "#C0C0C0"}
+                  />
+                </div>
                 <CommentInput
                   dark={dark}
                   onSubmit={handleReplySubmit}

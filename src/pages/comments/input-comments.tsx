@@ -119,7 +119,7 @@ const CommentInput = ({
                   <button
                     type="button"
                     onClick={onCancel}
-                    className="text-grayText font-semibold px-4 py-2 rounded-md hover:bg-gray-200 transition-colors w-28"
+                    className="text-grayText font-semibold px-4 py-2 rounded-md hover:bg-gray-200 transition-colors w-28 sm:w-auto"
                   >
                     Cancel
                   </button>
@@ -129,7 +129,7 @@ const CommentInput = ({
                   disabled={
                     !dataComment.name.trim() && !dataComment.text.trim()
                   }
-                  className={`${dark ? "bg-lightText disabled:text-grayTextContent disabled:bg-lightBg" : "bg-blue-900 disabled:text-grayTextContent disabled:bg-grayText"}  text-white font-semibold px-6 py-2 rounded-md  disabled:cursor-not-allowed transition-colors w-28`}
+                  className={`${dark ? "bg-lightText disabled:text-grayTextContent disabled:bg-lightBg" : "bg-blue-900 disabled:text-grayTextContent disabled:bg-grayText"}  text-white font-semibold px-6 py-2 rounded-md  disabled:cursor-not-allowed transition-colors w-28 sm:w-auto`}
                 >
                   {isReply ? "Reply" : "Post"}
                 </button>
