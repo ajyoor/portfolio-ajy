@@ -18,7 +18,7 @@ interface CommentInputProps {
 const CommentInput = ({
   onSubmit,
   placeholder = "Share your mind...",
-  onCancel,
+  // onCancel,
   isReply = false,
   dark,
 }: CommentInputProps) => {

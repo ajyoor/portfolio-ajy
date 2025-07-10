@@ -12,7 +12,6 @@ import {
   FaCss3Alt,
   FaLaravel,
   FaReact,
-  FaBootstrap,
   FaGitSquare,
   FaFigma,
   FaImdb,
