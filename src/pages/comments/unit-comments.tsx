@@ -131,7 +131,7 @@ const UnitComments = ({
             src={ImgPerson}
             alt="img"
             defaultValue={ImgPerson}
-            className="scale-[3] -mt-2 size-5 z-10"
+            className="scale-[3] -mt-2 size-5 z-10 !rotate-6 ml-[2px]"
             srcSet={ImgPerson}
             loading="lazy"
           />

@@ -84,7 +84,7 @@ const ContentResp = ({ dark }: { dark: any }) => {
             src={ImgPerson}
             alt="img"
             defaultValue={ImgPerson}
-            className="scale-[3.5] -mt-28"
+            className="scale-[3.5] -mt-28 !rotate-6 ml-3"
             srcSet={ImgPerson}
             loading="lazy"
           />
@@ -102,7 +102,7 @@ const ContentResp = ({ dark }: { dark: any }) => {
             src={ImgPerson}
             alt="img"
             defaultValue={ImgPerson}
-            className="scale-[3.5] -mt-28"
+            className="scale-[3.5] -mt-28 !rotate-6 ml-3"
             srcSet={ImgPerson}
             loading="lazy"
           />
