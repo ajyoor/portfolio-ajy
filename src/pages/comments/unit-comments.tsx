@@ -117,19 +117,24 @@ const UnitComments = ({
     <div
       className={`flex items-center gap-2 ${isReply ? "justify-end mt-1" : ""}`}
     >
-      <span
-        className={`flex items-center gap-3 text-xs ${dark ? "text-grayText" : "text-grayTextContent"}`}
+      <div
+        className={`relative flex items-center gap-3 text-xs ${dark ? "text-grayText" : "text-grayTextContent"}`}
       >
-        <FaHeart cursor="pointer" color="#e85a4f" size={16} />
+        <FaHeart
+          cursor="pointer"
+          color="#e85a4f"
+          size={12}
+          className="absolute z-20 -right-2 -bottom-1"
+        />
         <img
           src={ImgPerson}
           alt="img"
           defaultValue={ImgPerson}
-          className="scale-[1.5] rounded-full size-3 ml-2"
+          className="scale-[1.5] rounded-full size-3 z-10"
           srcSet={ImgPerson}
           loading="lazy"
         />
-      </span>
+      </div>
     </div>
   );
 
@@ -157,7 +162,8 @@ const UnitComments = ({
                   hour: "2-digit",
                   minute: "2-digit",
                 })
-                .replace(" pukul", ", ")}
+                .replace(" pukul", ", ")
+                .replace(".", ":")}
             </span>
           </div>
           <p className="mt-2 text-[15px] leading-relaxed break-words">
@@ -189,10 +195,12 @@ const UnitComments = ({
         </AnimatePresence>
         {isParentComment && (
           <div className="mt-3">
-            <div className="flex items-center space-x-5 mt-2 ml-1 text-sm text-gray-600 font-medium">
+            <div
+              className={`flex items-center space-x-5 mt-2 ml-1 text-sm ${!dark ? "text-grayTextContent" : "text-lightText"} font-medium`}
+            >
               <span
                 onClick={() => setIsReplying(!isReplying)}
-                className="cursor-pointer hover:underline"
+                className="cursor-pointer"
               >
                 {isReplying ? "Cancel reply" : "Reply"}
               </span>

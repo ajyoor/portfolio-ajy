@@ -1,4 +1,4 @@
-import ImgPerson from "@/assets/sangar.jpeg";
+import ImgPerson from "@/assets/kren.jpeg";
 import { Link } from "react-router-dom";
 import { SplitText } from "@/components/Text";
 import { AnimatedContent, DotCircleContent } from "@/components/Content";
@@ -84,7 +84,7 @@ const ContentResp = ({ dark }: { dark: any }) => {
             src={ImgPerson}
             alt="img"
             defaultValue={ImgPerson}
-            className="scale-[1.5] mt-[18px]"
+            className="scale-[3.5] -mt-28"
             srcSet={ImgPerson}
             loading="lazy"
           />
@@ -102,7 +102,7 @@ const ContentResp = ({ dark }: { dark: any }) => {
             src={ImgPerson}
             alt="img"
             defaultValue={ImgPerson}
-            className="scale-[1.5] mt-[18px]"
+            className="scale-[3.5] -mt-28"
             srcSet={ImgPerson}
             loading="lazy"
           />

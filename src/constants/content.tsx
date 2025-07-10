@@ -22,10 +22,11 @@ import {
 import {
   SiTypescript,
   SiCodeigniter,
-  SiJquery,
+  SiFlutter,
   SiNextdotjs,
   SiRedux,
   SiTailwindcss,
+  SiNestjs,
 } from "react-icons/si";
 import { FaThreads } from "react-icons/fa6";
 import {
@@ -149,7 +150,7 @@ export const Stack: IStack[] = [
     link: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
   },
   {
-    icon: <SiTypescript size={50} />,
+    icon: <SiTypescript size={45} />,
     link: "https://www.typescriptlang.org/",
   },
   {
@@ -161,9 +162,10 @@ export const Stack: IStack[] = [
     link: "https://laravel.com/",
   },
   {
-    icon: <SiJquery size={50} />,
-    link: "https://jquery.com/",
+    icon: <SiTailwindcss size={50} />,
+    link: "https://tailwindcss.com/",
   },
+
   {
     icon: <FaReact size={50} />,
     link: "https://react.dev/",
@@ -177,19 +179,19 @@ export const Stack: IStack[] = [
     link: "https://redux.js.org/",
   },
   {
-    icon: <SiTailwindcss size={50} />,
-    link: "https://tailwindcss.com/",
+    icon: <SiFlutter size={40} />,
+    link: "https://flutter.dev/",
   },
   {
-    icon: <FaBootstrap size={50} />,
-    link: "https://getbootstrap.com/",
+    icon: <SiNestjs size={50} />,
+    link: "https://nestjs.com/",
   },
   {
     icon: <FaGitSquare size={50} />,
     link: "https://www.git-scm.com/",
   },
   {
-    icon: <FaFigma size={50} />,
+    icon: <FaFigma size={45} />,
     link: "https://www.figma.com/",
   },
 ];

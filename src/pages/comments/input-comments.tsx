@@ -115,7 +115,7 @@ const CommentInput = ({
                 </AnimatePresence>
               </div>
               <div className="flex items-center space-x-2">
-                {onCancel && (
+                {/* {onCancel && (
                   <button
                     type="button"
                     onClick={onCancel}
@@ -123,7 +123,7 @@ const CommentInput = ({
                   >
                     Cancel
                   </button>
-                )}
+                )} */}
                 <button
                   type="submit"
                   disabled={

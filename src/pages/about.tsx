@@ -60,7 +60,7 @@ const about = ({ dark }: { dark: boolean }) => {
         })}
       </CardSecondary>
       <CardSecondary dark={dark} className="!p-0">
-        <div className="w-full grid grid-cols-7 place-items-center sm:flex flex-wrap gap-5 !gap-y-0 items-center justify-center">
+        <div className="w-full grid grid-cols-7 place-items-center sm:flex flex-wrap gap-5 !gap-y-0 items-center justify-center px-3 sm:px-0s">
           {Stack.map((key) => {
             return (
               <AnimatedContent>

@@ -181,7 +181,7 @@ const BlogDetailContent = ({ dark }: { dark: boolean }) => {
         )}
       </Card>
       <Card dark={dark} className="relative !mt-4">
-        {listComments.length ? (
+        {listComments !== undefined ? (
           <>
             <DotCircleContent
               dark={dark}
