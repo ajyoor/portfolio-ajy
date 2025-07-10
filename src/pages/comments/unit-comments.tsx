@@ -5,7 +5,7 @@ import { CommentInterface } from "../detail";
 import { IoPersonCircle, IoTrash } from "react-icons/io5";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
-import ImgPerson from "@/assets/sangar.jpeg";
+import ImgPerson from "@/assets/kren.jpeg";
 
 const guard = process.env.ADMIN_KEY;
 interface CommentProps {
@@ -124,16 +124,18 @@ const UnitComments = ({
           cursor="pointer"
           color="#e85a4f"
           size={12}
-          className="absolute z-20 -right-2 -bottom-1"
+          className="absolute z-20 -right-[6px] -bottom-[2px]"
         />
-        <img
-          src={ImgPerson}
-          alt="img"
-          defaultValue={ImgPerson}
-          className="scale-[1.5] rounded-full size-3 z-10"
-          srcSet={ImgPerson}
-          loading="lazy"
-        />
+        <div className="size-5 overflow-hidden rounded-full">
+          <img
+            src={ImgPerson}
+            alt="img"
+            defaultValue={ImgPerson}
+            className="scale-[3] -mt-2 size-5 z-10"
+            srcSet={ImgPerson}
+            loading="lazy"
+          />
+        </div>
       </div>
     </div>
   );
