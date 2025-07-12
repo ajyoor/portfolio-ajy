@@ -126,7 +126,7 @@ const UnitComments = ({
           size={12}
           className="absolute z-20 -right-[6px] -bottom-[2px]"
         />
-        <div className="size-5 overflow-hidden rounded-full">
+        <div className="size-5 overflow-hidden rounded-full pointer-events-none">
           <img
             src={ImgPerson}
             alt="img"

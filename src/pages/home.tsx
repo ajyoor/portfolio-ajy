@@ -76,7 +76,7 @@ const ContentResp = ({ dark }: { dark: any }) => {
           <DescriptionContent dark={dark} />
         </div>
         <div
-          className={`border  w-[160px] h-[160px] overflow-hidden rounded-full p-3 ${
+          className={`border  w-[160px] h-[160px] overflow-hidden rounded-full p-3 pointer-events-none ${
             !dark ? "bg-[#2C2C2C] border-grayBorder" : "bg-lightBgborder-white"
           }`}
         >
@@ -94,7 +94,7 @@ const ContentResp = ({ dark }: { dark: any }) => {
       {/* resp content*/}
       <div className="hidden md:flex flex-col gap-2 justify-center items-center text-center my-12">
         <div
-          className={`border w-[160px] h-[160px] overflow-hidden rounded-full p-3 ${
+          className={`border w-[160px] h-[160px] overflow-hidden rounded-full p-3 pointer-events-none ${
             !dark ? "bg-[#2C2C2C] border-grayBorder" : "bg-lightBg border-white"
           }`}
         >
