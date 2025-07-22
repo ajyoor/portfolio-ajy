@@ -9,7 +9,6 @@ import { SiGooglegemini } from "react-icons/si";
 import ImgPerson from "@/assets/kren.jpeg";
 import { Textarea } from "@/components/Textarea";
 import clsx from "clsx";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 interface ChatMessage {
   sender: "user" | "bot";
@@ -133,16 +132,6 @@ export default function TalkContent({ dark }: { readonly dark: boolean }) {
                 </div>
               </div>
             ))}
-            {/* {isLoading && (
-              <div className="flex items-center justify-center -my-8">
-                <DotLottieReact
-                  src="https://lottie.host/381faebd-6f71-480d-a0b5-afa7fd100f29/hfc7snLdCY.lottie"
-                  loop
-                  autoplay
-                  style={{ height: "80px", width: "80px" }}
-                />
-              </div>
-            )} */}
           </>
         ) : (
           <div

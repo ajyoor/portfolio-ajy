@@ -3,7 +3,6 @@ import "./App.css";
 import Root from "@/routes/Root.js";
 import { DarkMode } from "./context/DarkMode";
 import {
-  BiCube,
   BiHomeAlt,
   BiUserCircle,
   BiBookContent,
