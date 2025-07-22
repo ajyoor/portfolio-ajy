@@ -5,13 +5,16 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import DarkModeContextProvider from "./context/DarkMode.tsx";
 import { ToastProvider } from "./components/Toast.tsx";
+import { ChatProvider } from "./context/Talk.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
       <DarkModeContextProvider>
         <ToastProvider>
-          <App />
+          <ChatProvider>
+            <App />
+          </ChatProvider>
         </ToastProvider>
       </DarkModeContextProvider>
     </BrowserRouter>

@@ -63,7 +63,7 @@ const about = ({ dark }: { dark: boolean }) => {
         <div className="w-full grid grid-cols-7 place-items-center sm:flex flex-wrap gap-5 !gap-y-0 items-center justify-center px-3 sm:px-0s">
           {Stack.map((key) => {
             return (
-              <AnimatedContent>
+              <AnimatedContent key={key.link}>
                 <Link to={key.link} className="p-3 w-fit h-fit text-white">
                   {key.icon}
                 </Link>

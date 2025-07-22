@@ -1,10 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 import { CiClock2 } from "react-icons/ci";
 import { FaXTwitter, FaWhatsapp, FaLink } from "react-icons/fa6";
-import { useParams } from "react-router-dom";
 import Card from "@/components/Card";
 import { BlogInterface } from "./blog";
 import "@/App.css";
@@ -63,6 +62,9 @@ const BlogDetailContent = ({ dark }: { dark: boolean }) => {
     };
 
     fetchBlogDetail();
+    // const intervalId = setInterval(fetchBlogDetail, 600000);
+
+    // return () => clearInterval(intervalId);
     setTriggerList(false);
   }, [url.id, triggerList]);
 
@@ -167,7 +169,7 @@ const BlogDetailContent = ({ dark }: { dark: boolean }) => {
             .map((_, i) => {
               return (
                 <div
-                  key={i}
+                  key={i + "skeleton"}
                   className={`h-32 ${
                     !dark
                       ? "bg-[#373737] border-grayBorder text-white"
@@ -200,7 +202,7 @@ const BlogDetailContent = ({ dark }: { dark: boolean }) => {
             .map((_, i) => {
               return (
                 <div
-                  key={i}
+                  key={i + "skeleton"}
                   className={`h-32 ${
                     !dark
                       ? "bg-[#373737] border-grayBorder text-white"

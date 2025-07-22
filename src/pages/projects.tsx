@@ -36,7 +36,10 @@ const projects = ({ dark }: { dark: any }) => {
         >
           <div className="absolute w-full animate-scroll group-hover:[animation-play-state:paused]">
             {[...projectsCatalog, ...projectsCatalog].map((item, index) => (
-              <div key={index} className="w-full h-[250px] sm:h-[180px]">
+              <div
+                key={index + "projectsCatalog"}
+                className="w-full h-[250px] sm:h-[180px]"
+              >
                 {item.content}
               </div>
             ))}
@@ -46,7 +49,7 @@ const projects = ({ dark }: { dark: any }) => {
           <div className="grid grid-cols-2 sm:flex flex-wrap gap-4">
             {Projects.map((key, idx) => {
               return (
-                <SpotlightCard key={idx} dark={dark}>
+                <SpotlightCard key={idx + "key.title"} dark={dark}>
                   <div className="flex items-center gap-4">
                     {key.icon}
                     <span

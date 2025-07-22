@@ -106,7 +106,7 @@ const BlogContent = ({ dark }: { dark: boolean }) => {
             .fill(null)
             .map((_, i) => (
               <div
-                key={i}
+                key={i + "skeleton"}
                 className={`h-32 w-full ${
                   !dark
                     ? "bg-[#373737] border-grayBorder"
@@ -118,6 +118,79 @@ const BlogContent = ({ dark }: { dark: boolean }) => {
       )}
     </div>
   );
+
+  let blogContent;
+  if (isLoading) {
+    blogContent = renderLoadingState();
+  } else if (filteredBlog.length > 0) {
+    blogContent = (
+      <AnimatedContent>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-1">
+          {filteredBlog.map((key, idx) => (
+            <CardBlogs
+              dark={dark}
+              key={"blog-" + idx}
+              url={`/blog/detail/${key.id}`}
+              className="!gap-3"
+            >
+              <div
+                className="absolute right-0 top-0 w-1/2 h-full opacity-20 transform transition-all duration-300 group-hover:opacity-30 group-hover:scale-110"
+                style={{
+                  backgroundImage: `url(${key.photo})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center right",
+                  maskImage: "linear-gradient(to left, black, transparent)",
+                  WebkitMaskImage:
+                    "linear-gradient(to left, black, transparent)",
+                }}
+              ></div>
+              <span
+                className={`text-xl font-bold relative z-10 ${
+                  dark && "!text-lightText"
+                }`}
+              >
+                {key.title}
+              </span>
+              <div
+                className={`flex gap-2 items-center font-semibold text-xs capitalize mb-2 text-grayText`}
+              >
+                <CiClock2 size={16} strokeWidth={1} />
+                {new Date(key?.updatedAt || "").toLocaleDateString("id-ID", {
+                  weekday: "long",
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                })}
+              </div>
+              <span className="container-blog-content text-sm font-medium relative z-10 mt-1 text-justify line-clamp-4 text-grayText">
+                <div dangerouslySetInnerHTML={{ __html: key.content }} />
+              </span>
+            </CardBlogs>
+          ))}
+        </div>
+      </AnimatedContent>
+    );
+  } else {
+    blogContent = (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className={`flex flex-col items-center justify-center gap-6 py-12 ${
+          dark ? "text-white" : "text-grayTextContent"
+        }`}
+      >
+        <FileX2
+          size={80}
+          className="opacity-50"
+          color={dark ? "#e98074" : "#8f8f8f"}
+        />
+        <span className="text-lg font-semibold">Blog not found</span>
+      </motion.div>
+    );
+  }
 
   return (
     <Card dark={dark} className="!gap-4">
@@ -145,76 +218,7 @@ const BlogContent = ({ dark }: { dark: boolean }) => {
           value={searchTerm}
         />
       )}
-
-      {isLoading ? (
-        renderLoadingState()
-      ) : filteredBlog.length > 0 ? (
-        <AnimatedContent>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-1">
-            {filteredBlog.map((key, idx) => (
-              <CardBlogs
-                dark={dark}
-                key={"blog-" + idx}
-                url={`/blog/detail/${key.id}`}
-                className="!gap-3"
-              >
-                <div
-                  className="absolute right-0 top-0 w-1/2 h-full opacity-20 transform transition-all duration-300 group-hover:opacity-30 group-hover:scale-110"
-                  style={{
-                    backgroundImage: `url(${key.photo})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center right",
-                    maskImage: "linear-gradient(to left, black, transparent)",
-                    WebkitMaskImage:
-                      "linear-gradient(to left, black, transparent)",
-                  }}
-                ></div>
-                <span
-                  className={`text-xl font-bold relative z-10 ${
-                    dark && "!text-lightText"
-                  }`}
-                >
-                  {key.title}
-                </span>
-                <div
-                  className={`flex gap-2 items-center font-semibold text-xs capitalize mb-2 ${
-                    dark ? "text-grayText" : "text-grayText"
-                  }`}
-                >
-                  <CiClock2 size={16} strokeWidth={1} />
-                  {new Date(key?.updatedAt || "").toLocaleDateString("id-ID", {
-                    weekday: "long",
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                    hour: "numeric",
-                    minute: "numeric",
-                  })}
-                </div>
-                <span className="container-blog-content text-sm font-medium relative z-10 mt-1 text-justify line-clamp-4 text-grayText">
-                  <div dangerouslySetInnerHTML={{ __html: key.content }} />
-                </span>
-              </CardBlogs>
-            ))}
-          </div>
-        </AnimatedContent>
-      ) : (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className={`flex flex-col items-center justify-center gap-6 py-12 ${
-            dark ? "text-white" : "text-grayTextContent"
-          }`}
-        >
-          <FileX2
-            size={80}
-            className="opacity-50"
-            color={dark ? "#e98074" : "#8f8f8f"}
-          />
-          <span className="text-lg font-semibold">Blog not found</span>
-        </motion.div>
-      )}
+      {blogContent}
     </Card>
   );
 };

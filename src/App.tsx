@@ -8,6 +8,7 @@ import {
   BiUserCircle,
   BiBookContent,
   BiSend,
+  BiChat,
 } from "react-icons/bi";
 import { useLocation, Link } from "react-router-dom";
 import { MdDarkMode } from "react-icons/md";
@@ -43,14 +44,14 @@ function App() {
     },
     {
       icon: (
-        <BiCube
+        <BiChat
           className={`icon-sidebar ${
             !darkMode ? "text-[#8f8f8f]" : "text-white"
           }`}
-          size="28px"
+          size="25px"
         />
       ),
-      url: "/projects",
+      url: "/box",
     },
     {
       icon: (
