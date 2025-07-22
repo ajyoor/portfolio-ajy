@@ -1,5 +1,4 @@
 import { useState, FormEvent, useRef, useEffect } from "react";
-import { askAboutMe } from "../lib/aiServices";
 import { FaPaperPlane, FaSpinner } from "react-icons/fa";
 import Card from "@/components/Card";
 import { DotCircleContent } from "@/components/Content";
@@ -9,11 +8,6 @@ import { SiGooglegemini } from "react-icons/si";
 import ImgPerson from "@/assets/kren.jpeg";
 import { Textarea } from "@/components/Textarea";
 import clsx from "clsx";
-
-interface ChatMessage {
-  sender: "user" | "bot";
-  text: string;
-}
 
 export default function TalkContent({ dark }: { readonly dark: boolean }) {
   const { chatHistory, sendMessage, isLoading } = useChat();
