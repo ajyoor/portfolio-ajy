@@ -16,34 +16,18 @@ interface ChatMessage {
 }
 
 export default function TalkContent({ dark }: { readonly dark: boolean }) {
-  const { chatHistory, setChatHistory } = useChat();
+  const { chatHistory, sendMessage, isLoading } = useChat();
   const [userInput, setUserInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
-  const handleSubmit = async (e: FormEvent) => {
+  // Hapus semua logika isMounted dan useEffect-nya, sudah tidak perlu
+
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!userInput.trim()) return;
 
-    setIsLoading(true);
-    const userMessage: ChatMessage = { sender: "user", text: userInput };
-    setChatHistory((prev) => [...prev, userMessage]);
+    sendMessage(userInput);
     setUserInput("");
-
-    try {
-      const botResponse = await askAboutMe(userInput);
-      const botMessage: ChatMessage = { sender: "bot", text: botResponse };
-      setChatHistory((prev) => [...prev, botMessage]);
-    } catch (error) {
-      console.log(error);
-      const errorMessage: ChatMessage = {
-        sender: "bot",
-        text: "Maaf, terjadi kesalahan. Coba lagi nanti.",
-      };
-      setChatHistory((prev) => [...prev, errorMessage]);
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   useEffect(() => {
@@ -54,7 +38,7 @@ export default function TalkContent({ dark }: { readonly dark: boolean }) {
   }, [chatHistory]);
 
   return (
-    <Card dark={dark} className="h-[calc(100dvh-105px)] flex flex-col">
+    <Card dark={dark} className="!h-[calc(100dvh-105px)] flex flex-col">
       {/* description content */}
       {chatHistory.length > 0 ? (
         <div
